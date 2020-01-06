@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const authRoute = require('./routes/auth');
 const budgetRoute = require('./routes/budget.route');
 
+const cors = require('cors');
+
 env.config();
 
 mongoose.connect(
@@ -14,6 +16,9 @@ mongoose.connect(
 );
 
 app.use(express.json());
+
+app.use(cors());
+
 app.use('/api/auth/user', authRoute);
 
 // protected:

@@ -6,6 +6,8 @@ const User = require('../models/User.model');
 
 const { sv, lv } = require('../validation');
 
+const { MAuth } = require('./private');
+
 router.post('/register', (req, res) => {
   const isValid = sv.validate(req.body);
 
@@ -73,10 +75,19 @@ router.post('/login', (req, res) => {
           process.env.TOKEN_SECRET
         );
 
-        res.status(200).json({ token });
+        res.status(200).json({
+          uid: userData._id,
+          username: userData.username,
+          email: userData.email,
+          token
+        });
       });
     });
   }
+});
+
+router.get('/get', MAuth, (req, res) => {
+  return res.json(req.user);
 });
 
 module.exports = router;
